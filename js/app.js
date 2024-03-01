@@ -57,6 +57,22 @@ function speak(text) {
 	}
   
 	window.speechSynthesis.speak(msg);
+
+	// 語音生成完成後觸發下載 MP3 的功能
+	msg.onend = function(event) {
+	    // 使用 Recorder.js 將語音輸出轉換為 MP3 格式
+	    // 請替換下面的程式碼以適應您的需求
+	    var blob = new Blob(['語音內容轉換後的 MP3'], { type: 'audio/mp3' });
+	    var url = URL.createObjectURL(blob);
+	
+	    // 創建一個連結，使用者可以點擊並下載 MP3 檔案
+	    var a = document.createElement('a');
+	    a.href = url;
+	    a.download = '語音.mp3';
+	    document.body.appendChild(a);
+	    a.click();
+	    window.URL.revokeObjectURL(url);
+	};
 }
 
 button.addEventListener('click', function(e) {
